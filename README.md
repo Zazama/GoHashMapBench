@@ -57,7 +57,7 @@ Please be aware that memory is the Heap size that Go allocated in order to run t
 | 9973          | 1.2413ms      | 8.740ms | 1ms       | 1mb    |
 | 1048575       | 192.280ms     |  4.695s | 18.210ms  | 60mb   |
 | 10485751      | 2.11s         | 52.727s | 202.999ms | 730mb  |
-| 104857351     | 27.7s         | 580.72s | 3.14s     | 5248mb |
+| 104857351     | 26.7s         | 580.72s | 3.14s     | 5248mb |
 
 ### BinaryTreeHashMap
 (Grow multiplier 2x)
@@ -82,3 +82,27 @@ Grow multiplier 4x
 | 1048575       | 217.614ms     | 10.76s  | 21.804ms  | 76mb   |
 | 10485751      | 2.721s        | 129.63s | 195.506ms | 649mb  |
 | 104857351     | 32.680s       | 1772.7s | 2.569s    | 5824mb |
+
+## Insert
+| Place  | 9973             | 1048575           | 10485751         | 104857351          |
+| ------ | -------------    | -----             | ---------        | ------             |
+| 1      | **CuckooHashMap**    | **CuckooHashMap**     | **CuckooHashMap**    | **CuckooHashMap**      |
+| 2      | GoLangMap        | BasicHashMap      | BasicHashMap     | BasicHashMap       |
+| 3      | BinaryTreeHashMap| GoLangMap         | GoLangMap        | GoLangMap          |
+| 4      | BasicHashMap     | BinaryTreeHashMap | BinaryTreeHashMap| BinaryTreeHashMap  |
+
+## Get
+| Place  | 9973             | 1048575           | 10485751         | 104857351          |
+| ------ | -------------    | -----             | ---------        | ------             |
+| 1      | **CuckooHashMap**    | **CuckooHashMap**     | BasicHashMap     | **CuckooHashMap**      |
+| 2      | GoLangMap        | BasicHashMap      | **CuckooHashMap**    | BasicHashMap       |
+| 3      | BinaryTreeHashMap| BinaryTreeHashMap | GoLangMap        | BinaryTreeHashMap  |
+| 4      | BasicHashMap     | GoLangMap         | BinaryTreeHashMap| GoLangMap          |
+
+## KV-Pairs
+| Place  | 9973             | 1048575           | 10485751         | 104857351          |
+| ------ | -------------    | -----             | ---------        | ------             |
+| 1      | x                | BasicHashMap      | **GoLangMap**        | **GoLangMap**          |
+| 2      | x                | CuckooHashMap     | CuckooHashMap    | CuckooHashMap      |
+| 3      | x                | **GoLangMap**         | BasicHashMap     | BasicHashMap       |
+| 4      | x                | BinaryTreeHashMap | BinaryTreeHashMap| BinaryTreeHashMap  |
