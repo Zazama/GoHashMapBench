@@ -3,8 +3,9 @@ package BinaryTreeHashMap
 import "Pair"
 
 var INITIAL_CAPACITY = 1 << 5
-var THRESHOLD_MAX float32 = 1.0
-var THRESHOLD_MIN float32 = 0.25
+var THRESHOLD_MAX float32 = 1
+var THRESHOLD_MIN float32 = 0.2
+var GROW_SHIFT = 2
 
 type BinaryTreeHashMap struct {
 	entries []*Node
@@ -175,7 +176,7 @@ func (hm *BinaryTreeHashMap) resizeOnThreshold() {
 	if hm.Size < int(float32(len(hm.entries)) * THRESHOLD_MIN) && hm.Size > INITIAL_CAPACITY {
 		newSize = len(hm.entries) >> 1
 	} else if hm.Size > int(float32(len(hm.entries)) * THRESHOLD_MAX) {
-		newSize = len(hm.entries) << 1
+		newSize = len(hm.entries) << GROW_SHIFT
 	} else {
 		return
 	}

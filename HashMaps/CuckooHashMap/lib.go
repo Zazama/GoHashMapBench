@@ -3,8 +3,7 @@ package CuckooHashMap
 import "Pair"
 
 var INITIAL_CAPACITY = 1 << 6
-var THRESHOLD_MAX float32 = 0.1
-var THRESHOLD_MIN float32 = 0.1
+var GROW_SHIFT = 2
 
 type CuckooHashMap struct {
 	entries1 []*Pair.Pair
@@ -122,7 +121,7 @@ func (hm *CuckooHashMap) get(key uint64) *Pair.Pair {
 }
 
 func (hm *CuckooHashMap) grow() {
-	newHashMap := createByCapacity(len(hm.entries1) << 2)
+	newHashMap := createByCapacity(len(hm.entries1) << 2 * GROW_SHIFT)
 
 	for _, pair := range hm.KeyValuePairs() {
 		newHashMap.Put(pair.Key, pair.Value)

@@ -20,23 +20,6 @@ type HashMap interface {
 }
 
 func main() {
-	/*hashmap := BinaryTreeHashMap.New()
-	hashmap.Put(2, 12)
-	hashmap.Put(18, 444)
-	hashmap.Put(34, 4444)
-	hashmap.Put(22, 123341)
-	hashmap.Put(1274, 8654)
-	hashmap.Remove(2)
-	hashmap.Remove(34)
-	hashmap.Remove(1111)
-	hashmap.Put(18, 455)
-
-	for _, pair := range hashmap.KeyValuePairs() {
-		fmt.Printf("k: %d,v: %d\n", pair.Key, pair.Value)
-	}
-
-	fmt.Printf("%d", hashmap.Size)*/
-
 	hashmapFlag := flag.String("hashmap", "all", "Hashmap to profile (all by default)")
 	callsMultiplier := flag.Int("multiplier", 100, "Multiplier for get calls")
 	elementsMultiplier := flag.Int("elements", 1048575, "Elements to insert (MUST BE PRIME NUMBER!)")
@@ -78,7 +61,16 @@ func bench(hm HashMap, elements int, multiplier int, printMemory bool) {
 	fmt.Printf("--------\n")
 
 	/* MUST BE PRIME NUMBER!! */
-	primeMultiplier := 1000537
+	var primeMultiplier int
+	if elements > 9000 {
+		primeMultiplier = 6701
+	} else if elements > 1001000 {
+		primeMultiplier = 1000537
+	} else {
+		fmt.Printf("Please choose elements as > 9000")
+		return
+	}
+
 
 	fmt.Printf("Config:\n")
 	fmt.Printf("\telements: %d\n", elements)
